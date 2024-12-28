@@ -1,9 +1,9 @@
-
+import LandingPage from "./components/LandingPage/landingpage"
 
 export default function Home() {
   return (
     <div>
-      <h1>lingua-quest</h1>
+      <LandingPage />
     </div>
   )
 }
