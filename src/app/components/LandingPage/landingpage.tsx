@@ -3,6 +3,11 @@
 import React from 'react'
 import { ArrowRight, BookOpen, BadgeIcon as Certificate, Users, Globe } from 'lucide-react'
 
+// changes
+import { useWeb3Modal } from '@web3modal/wagmi/react';
+import { useAccount, useDisconnect } from 'wagmi';
+// changes end
+
 interface FeatureCardProps {
   title: string
   description: string
@@ -34,6 +39,21 @@ const StatItem: React.FC<StatItemProps> = ({ value, label, icon }) => (
 )
 
 const LandingPage: React.FC = () => {
+
+  // changes
+  const { open } = useWeb3Modal()
+  const { address, isConnected } = useAccount()
+  const { disconnect } = useDisconnect()
+
+  const handleWalletConnection = () => {
+    if (isConnected) {
+      disconnect()
+    } else {
+      open()
+    }
+  }
+  // changes end
+
   const features: FeatureCardProps[] = [
     {
       title: "Learn & Earn",
@@ -60,18 +80,20 @@ const LandingPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 text-gray-800">
-      {/* Navbar */}
-      <nav className="flex justify-between items-center px-4 sm:px-6 py-4 bg-white shadow-sm sticky top-0 z-10">
-        <div className="text-2xl font-bold text-green-500">
-          LinguaQuest
-        </div>
-        <button 
-          className="bg-green-500 text-white px-4 py-2 rounded-full font-semibold hover:bg-green-600 transition-colors duration-300"
-          onClick={() => console.log("Connect wallet clicked")}
-        >
-          Connect Wallet
-        </button>
-      </nav>
+    {/* Navbar */}
+    <nav className="flex justify-between items-center px-4 sm:px-6 py-4 bg-white shadow-sm sticky top-0 z-10">
+      <div className="text-2xl font-bold text-green-500">
+        LinguaQuest
+      </div>
+      <button 
+        className="bg-green-500 text-white px-4 py-2 rounded-full font-semibold hover:bg-green-600 transition-colors duration-300"
+        onClick={handleWalletConnection}
+      >
+        {isConnected 
+          ? `${address?.slice(0, 6)}...${address?.slice(-4)}` 
+          : 'Connect Wallet'}
+      </button>
+    </nav>
 
       {/* Hero Section */}
       <main className="text-center px-4 sm:px-6 py-12 max-w-4xl mx-auto">
