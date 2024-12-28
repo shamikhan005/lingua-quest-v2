@@ -43,13 +43,18 @@ const LandingPage: React.FC = () => {
   // changes
   const { open } = useWeb3Modal()
   const { address, isConnected } = useAccount()
-  const { disconnect } = useDisconnect()
+  // const { disconnect } = useDisconnect()
 
-  const handleWalletConnection = () => {
-    if (isConnected) {
-      disconnect()
-    } else {
-      open()
+  const handleWalletConnection = async () => {
+    try {
+      if (isConnected) {
+        // Instead of direct disconnect, use Web3Modal's open method
+        open({ view: 'Account' })
+      } else {
+        await open()
+      }
+    } catch (error) {
+      console.error('Wallet connection error:', error)
     }
   }
   // changes end
