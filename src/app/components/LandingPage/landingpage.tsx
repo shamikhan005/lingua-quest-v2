@@ -3,10 +3,8 @@
 import React from 'react'
 import { ArrowRight, BookOpen, BadgeIcon as Certificate, Users, Globe } from 'lucide-react'
 
-// changes
 import { useWeb3Modal } from '@web3modal/wagmi/react';
 import { useAccount, useDisconnect } from 'wagmi';
-// changes end
 
 interface FeatureCardProps {
   title: string
@@ -40,7 +38,6 @@ const StatItem: React.FC<StatItemProps> = ({ value, label, icon }) => (
 
 const LandingPage: React.FC = () => {
 
-  // changes
   const { open } = useWeb3Modal()
   const { address, isConnected } = useAccount()
   const { disconnect } = useDisconnect()
@@ -52,7 +49,6 @@ const LandingPage: React.FC = () => {
       open()
     }
   }
-  // changes end
 
   const features: FeatureCardProps[] = [
     {
@@ -80,7 +76,6 @@ const LandingPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 text-gray-800">
-    {/* Navbar */}
     <nav className="flex justify-between items-center px-4 sm:px-6 py-4 bg-white shadow-sm sticky top-0 z-10">
       <div className="text-2xl font-bold text-green-500">
         LinguaQuest
@@ -94,8 +89,7 @@ const LandingPage: React.FC = () => {
           : 'Connect Wallet'}
       </button>
     </nav>
-
-      {/* Hero Section */}
+      
       <main className="text-center px-4 sm:px-6 py-12 max-w-4xl mx-auto">
         <h1 className="text-4xl sm:text-5xl font-bold mb-4 text-gray-900">
           Learn Languages in the Web3 Era
@@ -103,8 +97,7 @@ const LandingPage: React.FC = () => {
         <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
           Master new languages while earning tokens and NFT certificates.
         </p>
-
-        {/* CTA Button */}
+        
         <div className="mb-16">
           <button 
             className="bg-green-500 text-white px-6 py-3 rounded-full font-semibold hover:bg-green-600 transition-colors duration-300 flex items-center justify-center mx-auto"
@@ -115,7 +108,6 @@ const LandingPage: React.FC = () => {
           </button>
         </div>
 
-        {/* Feature Cards */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
           {features.map((feature, index) => (
             <FeatureCard 
@@ -127,7 +119,6 @@ const LandingPage: React.FC = () => {
           ))}
         </div>
 
-        {/* Stats Section */}
         <div className="bg-white p-8 rounded-lg shadow-md">
           <h2 className="text-2xl font-bold text-gray-800 mb-6">Our Impact</h2>
           <div className="grid grid-cols-3 gap-4">
@@ -142,7 +133,6 @@ const LandingPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Testimonial Section */}
         <div className="mt-16 bg-white p-8 rounded-lg shadow-md">
           <h2 className="text-2xl font-bold text-gray-800 mb-6">
             What Our Learners Say
@@ -159,7 +149,6 @@ const LandingPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Footer */}
         <footer className="mt-16 text-center text-gray-600">
           <p>&copy; 2024 LinguaQuest. All rights reserved.</p>
         </footer>
