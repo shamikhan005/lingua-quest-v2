@@ -77,7 +77,6 @@ const LessonComponent = ({ lessonId, onLessonComplete }: LessonComponentProps) =
     setIsCorrect(correct);
     setShowFeedback(true);
 
-    // Update progress
     if (correct) {
       const newProgress = ((currentQuestion + 1) / lessons[currentLesson].questions.length) * 100;
       setLessonProgress(newProgress);
@@ -88,7 +87,7 @@ const LessonComponent = ({ lessonId, onLessonComplete }: LessonComponentProps) =
     if (currentQuestion + 1 < lessons[currentLesson].questions.length) {
       setCurrentQuestion(currentQuestion + 1);
     } else if (currentLesson + 1 < lessons.length) {
-      // Move to next lesson
+  
       setCurrentLesson(currentLesson + 1);
       setCurrentQuestion(0);
       onLessonComplete(lessons[currentLesson].id);
