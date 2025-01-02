@@ -34,5 +34,3 @@ const LessonPage = ({ params }: { params: { lessonId: string } }) => {
 };
 
 export default LessonPage;
-
-
