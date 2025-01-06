@@ -42,6 +42,13 @@ const lessons = [
 export default function LessonsList() {
   return (
     <div className="max-w-4xl mx-auto p-4 min-h-screen bg-[#FAFAFA]">
+      <nav className="flex justify-end mb-8">
+        <Link href="/profile" className="p-2 bg-green-500 text-white rounded-full hover:bg-green-600 transition-colors duration-300">
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+          </svg>
+        </Link>
+      </nav>
       <h1 className="text-[2.5rem] font-bold text-[#1A1A1A] mb-12 text-center tracking-tight">
         Lessons
       </h1>
@@ -51,7 +58,7 @@ export default function LessonsList() {
             <Link href={`/lessons/${lesson.id}`}>
               <div className="group h-full p-6 bg-white rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 ease-in-out border border-gray-100">
                 <div className="flex flex-col h-full">
-                  {/* Header */}
+              
                   <div className="flex items-start justify-between mb-4">
                     <div className="text-green-500 p-2 bg-green-50 rounded-xl">
                       {lesson.icon}
