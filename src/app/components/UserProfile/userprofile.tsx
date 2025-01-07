@@ -2,18 +2,34 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { useAccount } from 'wagmi';
 
-const userData = {
-  name: "Shamiullah Khan",
-  walletAddress: "0x1234...5678",
-  lessonsCompleted: 15,
-  totalLessons: 30,
-  tokensEarned: 1250,
-  nftCertificates: 2,
-  joinDate: "2024-01-01"
-};
 
 const UserProfile = () => {
+
+  const { address, isConnected } = useAccount();
+
+  if (!isConnected) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold mb-4">Please connect your wallet</h2>
+          <w3m-button />
+        </div>
+      </div>
+    )
+  }
+
+  const userData = {
+    name: "Shamiullah Khan",
+    walletAddress: address || '',
+    lessonsCompleted: 0,
+    totalLessons: 30,
+    tokensEarned: 0,
+    nftCertificates: 0,
+    joinDate: new Date().toISOString()
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-3xl mx-auto">
@@ -30,10 +46,12 @@ const UserProfile = () => {
           <div className="px-6 py-8">
             <div className="flex items-center mb-6">
               <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center text-green-500 text-2xl font-bold mr-4">
-                {userData.name.split(' ').map(n => n[0]).join('')}
+                {address ? `${address.slice(0,2)}` : 'U'}
               </div>
               <div>
-                <h2 className="text-2xl font-bold text-gray-800">{userData.name}</h2>
+                <h2 className="text-2xl font-bold text-gray-800">
+                  {userData.name === "User" ? `User ${address?.slice(0,6)}...${address?.slice(-4)}` : userData.name}
+                </h2>
                 <p className="text-sm text-gray-500">Joined on {new Date(userData.joinDate).toLocaleDateString()}</p>
               </div>
             </div>
@@ -41,7 +59,7 @@ const UserProfile = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <h3 className="text-lg font-semibold text-gray-700 mb-2">Wallet Address</h3>
-                <p className="text-gray-600 bg-gray-100 p-2 rounded">{userData.walletAddress}</p>
+                <p className="text-gray-600 bg-gray-100 p-2 rounded">{address}</p>
               </div>
               <div>
                 <h3 className="text-lg font-semibold text-gray-700 mb-2">Tokens Earned</h3>
