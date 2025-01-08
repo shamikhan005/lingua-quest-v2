@@ -59,7 +59,7 @@ const UserProfile = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <h3 className="text-lg font-semibold text-gray-700 mb-2">Wallet Address</h3>
-                <p className="text-gray-600 bg-gray-100 p-2 rounded">{address}</p>
+                <p className="text-gray-600 bg-gray-100 p-2 rounded overflow-hidden text-ellipsis">{address}</p>
               </div>
               <div>
                 <h3 className="text-lg font-semibold text-gray-700 mb-2">Tokens Earned</h3>
