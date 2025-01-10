@@ -1,8 +1,8 @@
 'use client'
 
-import React, {useState, useRef } from 'react';
+import React, {useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
-import { useAccount } from 'wagmi';
+import { useAccount, useEnsName } from 'wagmi';
 import Image from 'next/image';
 
 
@@ -11,7 +11,17 @@ const UserProfile = () => {
   const { address, isConnected } = useAccount();
   const [profilePicture, setProfilePicture] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const { data: ensName } = useEnsName({ address });
+  const [userName, setUserName] = useState<string>('');
 
+  useEffect(() => {
+    if (ensName) {
+      setUserName(ensName);
+    } else if (address) {
+      setUserName(`User ${address.slice(0,6)}...${address.slice(-4)}`);
+    }
+  }, [address, ensName]);
+  
   const handleProfilePictureUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
@@ -52,7 +62,7 @@ const UserProfile = () => {
   }
 
   const userData = {
-    name: "Shamiullah Khan",
+    name: userName,
     walletAddress: address || '',
     lessonsCompleted: 0,
     totalLessons: 30,
@@ -115,7 +125,7 @@ const UserProfile = () => {
               </div>
               <div>
                 <h2 className="text-2xl font-bold text-gray-800">
-                  {userData.name === "User" ? `User ${address?.slice(0,6)}...${address?.slice(-4)}` : userData.name}
+                  {userData.name}
                 </h2>
                 <p className="text-sm text-gray-500">Joined on {new Date(userData.joinDate).toLocaleDateString()}</p>
               </div>
