@@ -2,17 +2,24 @@
 
 import React, {useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
-import { useAccount, useEnsName } from 'wagmi';
+import { useAccount, useEnsName, useDisconnect } from 'wagmi';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 
-
 const UserProfile = () => {
-
   const { address, isConnected } = useAccount();
+  const { disconnect } = useDisconnect();
   const [profilePicture, setProfilePicture] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { data: ensName } = useEnsName({ address });
   const [userName, setUserName] = useState<string>('');
+  
+  const router = useRouter();
+
+  const handleDisconnectWallet = () => {
+    disconnect(); 
+    router.push('/'); 
+  };
 
   useEffect(() => {
     if (ensName) {
@@ -22,6 +29,7 @@ const UserProfile = () => {
     }
   }, [address, ensName]);
   
+
   const handleProfilePictureUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
@@ -78,9 +86,17 @@ const UserProfile = () => {
           <div className="bg-green-500 px-6 py-4">
             <div className="flex items-center justify-between">
               <h1 className="text-2xl font-bold text-white">User Profile</h1>
-              <Link href="/" className="text-white hover:text-green-100 transition-colors duration-200">
-                Back to Home
-              </Link>
+              <div className="flex items-center space-x-4">
+                <Link href="/" className="text-white hover:text-green-100 transition-colors duration-200">
+                  Back to Home
+                </Link>
+                <button 
+                  onClick={handleDisconnectWallet}
+                  className="bg-red-500 text-white px-3 py-1 rounded-full hover:bg-red-600 transition-colors duration-300"
+                >
+                  Disconnect Wallet
+                </button>
+              </div>
             </div>
           </div>
             <div className="px-6 py-8">
