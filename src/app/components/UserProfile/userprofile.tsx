@@ -14,6 +14,11 @@ const UserProfile = () => {
   const { data: ensName } = useEnsName({ address });
   const [userName, setUserName] = useState<string>("");
 
+  // changes
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedName, setEditedName] = useState<string>('');
+  // changes end
+
   const router = useRouter();
 
   const handleDisconnectWallet = () => {
@@ -24,10 +29,26 @@ const UserProfile = () => {
   useEffect(() => {
     if (ensName) {
       setUserName(ensName);
+
+      setEditedName(ensName);
     } else if (address) {
-      setUserName(`User ${address.slice(0, 6)}...${address.slice(-4)}`);
+      const defaultName = `User ${address.slice(0,6)}...${address.slice(-4)}`;
+
+      setUserName(defaultName);
+      setEditedName(defaultName);
     }
   }, [address, ensName]);
+
+  const handleNameSave = () => {
+    // Validate and save the edited name
+    const trimmedName = editedName.trim();
+    if (trimmedName && trimmedName.length <= 50) {
+      setUserName(trimmedName);
+      setIsEditing(false);
+    } else {
+      alert('Name must be between 1 and 50 characters');
+    }
+  };
 
   const handleProfilePictureUpload = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -190,9 +211,49 @@ const UserProfile = () => {
                 />
               </div>
               <div>
-                <h2 className="text-2xl font-bold text-gray-800">
-                  {userData.name}
-                </h2>
+          {isEditing ? (
+            <div className="flex items-center">
+              <input
+                type="text"
+                value={editedName}
+                onChange={(e) => setEditedName(e.target.value)}
+                className="text-2xl font-bold text-gray-800 border-b-2 border-green-500 mr-2 w-full"
+                maxLength={50}
+              />
+              <button 
+                onClick={handleNameSave}
+                className="text-green-500 hover:text-green-600"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+              </button>
+              <button 
+                onClick={() => setIsEditing(false)}
+                className="text-red-500 hover:text-red-600 ml-2"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+          ) : (
+            <div className="flex items-center">
+              <h2 className="text-2xl font-bold text-gray-800 mr-2">
+                {userName}
+              </h2>
+              <button 
+                onClick={() => setIsEditing(true)}
+                className="text-green-500 hover:text-green-600"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+                </svg>
+              </button>
+            </div>
+          )}
+        </div>
+              <div>
                 <p className="text-sm text-gray-500">
                   Joined on {new Date(userData.joinDate).toLocaleDateString()}
                 </p>
