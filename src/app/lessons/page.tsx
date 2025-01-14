@@ -41,7 +41,7 @@ const lessons = [
 
 export default function LessonsList() {
   return (
-    <div className="max-w-4xl mx-auto p-4 min-h-screen bg-[#FAFAFA]">
+    <div className="max-w-4xl mx-auto p-4 min-h-screen bg-gradient-to-br from-green-50 to-blue-50">
       <nav className="flex justify-end mb-8">
         <Link href="/profile" className="p-2 bg-green-500 text-white rounded-full hover:bg-green-600 transition-colors duration-300">
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
